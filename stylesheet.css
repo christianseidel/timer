@@ -1,0 +1,48 @@
+.background-dark {
+    background-color: #262626;
+}
+.background-blue {
+    background-color: blue;
+}
+.background-black {
+    background-color: #000000;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+}
+
+.margin-top {
+    margin-top: 30px;
+}
+
+.timer {
+    font-size: 60px;
+    color: white; 
+    font-family: arial, sans serif;
+}
+
+.btn-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.btn {
+    background: #ffb400;
+    border: #ffb400 solid 1pt;
+    border-radius: 12px;
+
+    width: 163px;
+    height: 46px;
+    padding: 5px 0px;
+
+    text-align: center;
+    font-size: 38px;
+    font-weight: bold;
+    color: white;
+    font-family: Calibri;
+
+}
+
