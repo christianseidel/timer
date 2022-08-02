@@ -13,10 +13,9 @@ let timerStarted = false;
 function startTimer() {
 
     if (!timerStarted) {
+        timerStarted = true;
         let startTime = new Date().getTime();
         let endTime = startTime + (1000 * 60 * m);
-
-        timerStarted = true;
         console.log('timer started');
 
         const myTimer = setInterval(runTimer, 1000);
@@ -44,14 +43,17 @@ function startTimer() {
         function stopTimer() {
             if (timerStarted) {
                 clearInterval(myTimer);
-                timerStarted = false;
                 console.log('timer stopped');
                 let timeRemaining = timer.innerHTML;
                 console.log(timeRemaining);
                 // yet to calculate m...
 
+                setTimeout(function () {
+                    timerStarted = false;
+                }, 1500);
             } else {
                 showMessage('noStop', 'Timer isn\'t running');
+                console.log(timerStarted);
             }
         }
     } else {
