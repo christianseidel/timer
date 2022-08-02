@@ -2,7 +2,7 @@ let alarm = new Audio('sound/alarm.mp3');
 document.getElementById('btn-start').addEventListener('click', startTimer);
 
 let timer = document.getElementById('timer');
-let m = 0.05;
+let m = 5;
 let mSaved = m;
 let minutes = 0;
 let seconds = 0;
