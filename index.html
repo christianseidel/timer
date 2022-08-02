@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="stylesheet.css">
+    <link rel="stylesheet" href="stylesheet.css">,
     <title>Kurzzeitwecker</title>
 </head>
 
@@ -12,17 +12,25 @@
         <img src="img/egg.png">
     </div>
 
-
-    <div class="center margin-top timer" id="timer">05 : 00</div>
-
+    <div class="center margin-top timer" id="timer">02 : 00</div>
 
     <div class="btn-container">
-        <div class="btn" onclick="startTimer()">
+        <div class="btn" id="starter">
             START
         </div>
-
+        <div class="btn" id="stopper">
+            STOP
+        </div>
     </div>
 
+    <div>
+        <form>
+            <input type="number" value="2" id="time-round_1">
+            <label style="color: white" for="time-round_1" id="label-round_1">Minuten</label>
+            <button class="btn-enter" type="button" onclick="validateInput()">enter</button>
+            <button class="btn-reset" type="reset" onclick="resetInput()">reset</button>
+        </form>
+    </div>
 
     <script type="text/javascript" src="./scripts/main.js"></script>
 </body>

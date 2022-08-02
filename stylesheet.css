@@ -1,3 +1,7 @@
+button {
+    cursor: pointer;
+}
+
 .background-dark {
     background-color: #262626;
 }
@@ -27,22 +31,41 @@
     display: flex;
     justify-content: center;
     margin-top: 30px;
+    cursor: pointer;
 }
 
 .btn {
     background: #ffb400;
     border: #ffb400 solid 1pt;
     border-radius: 12px;
-
     width: 163px;
     height: 46px;
     padding: 5px 0px;
-
     text-align: center;
     font-size: 38px;
     font-weight: bold;
     color: white;
-    font-family: Calibri;
-
+    font-family: Calibri, serif;
 }
 
+.btn-reset {
+    display: block;
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
+
+.btn-enter {
+    margin-top: 12px;
+    margin-bottom: 12px;
+    margin-left: 6px;
+}
+
+.msg {
+    color: white;
+    margin-left: 36px;
+    display: none;
+}
+
+label {
+    margin-left: 6px;
+}
