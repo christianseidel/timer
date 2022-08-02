@@ -47,6 +47,7 @@ function startTimer() {
                 let timeRemaining = timer.innerHTML;
                 console.log(timeRemaining);
                 // yet to calculate m...
+                // so the timer can restart where it stopped...
 
                 setTimeout(function () {
                     timerStarted = false;
