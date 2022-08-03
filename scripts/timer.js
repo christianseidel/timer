@@ -45,10 +45,9 @@ function startTimer() {
                 clearInterval(myTimer);
                 console.log('timer stopped');
                 let timeRemaining = timer.innerHTML;
-                console.log(timeRemaining);
-                // yet to calculate m...
-                // so the timer can restart where it stopped...
-
+                let remainingMinutes = timeRemaining.slice(0 ,2);
+                let remainingSeconds = timeRemaining.slice(-2);
+                m = Number(remainingMinutes) + Number(remainingSeconds/60);
                 setTimeout(function () {
                     timerStarted = false;
                 }, 1500);
