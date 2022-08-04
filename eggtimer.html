@@ -33,12 +33,31 @@
 </p>
 <div>
     <form>
-        <input type="number" value="5" id="time-lapse01" style="width: 60px">
+        <input id="time-lapse01" type="number" value="5" min="0" style="width: 60px">
         <label style="color: white" for="time-lapse01" id="label-lapse01">
             Minuten
         </label>
         <button class="btn-enter" type="button" onclick="validateInput()">setzen</button>
         <button class="btn-reset" type="reset" onclick="resetInput()">zurücksetzen</button>
+    </form>
+</div>
+
+<div>
+    <form>
+        <input type="radio" id="sound1" name="sound" value="happy_bells" checked>
+        <label style="color: white" for="sound1">
+            Happy Bells
+        </label><br>
+        <input type="radio" id="sound2" name="sound" value="bubbly_strings">
+        <label style="color: white" for="sound2">
+            Bubbly Strings
+        </label><br>
+        <input type="radio" id="sound3" name="sound" value="musical_alert">
+        <label style="color: white" for="sound3">
+            Musical Alert
+        </label><br>
+
+        <button class="btn-reset" type="button" onclick="setSound()">auswählen</button>
     </form>
 </div>
 
