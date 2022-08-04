@@ -6,12 +6,13 @@ let text = '';
 showTime(1000 * 60 * m);
 
 let alarm = new Audio('sound/mixkit-happy-bells-notification-937.wav');
-
+let click = new Audio('sound/classic-click.wav');
 
 document.getElementById('btn-start').style.display = 'block';
 document.getElementById('btn-start').addEventListener('click', startTimer);
 
 function startTimer() {
+    click.play();
     document.getElementById('btn-start').style.display = 'none';
     document.getElementById('btn-stop').style.display = 'block';
 
@@ -44,6 +45,7 @@ function startTimer() {
     document.getElementById('btn-stop').addEventListener('click', stopTimer);
 
     function stopTimer() {
+        click.play();
         clearInterval(myTimer);
         console.log('timer stopped');
         document.getElementById('btn-stop').style.display = 'none';
@@ -63,6 +65,7 @@ function showTime(timeLeft) {
 document.getElementById('btn-reset').addEventListener('click', reset);
 
 function reset() {
+    click.play();
     showTime(1000 * 60 * m);
     document.getElementById('btn-reset').style.display = 'none';
     document.getElementById('btn-start').style.display = 'block';
