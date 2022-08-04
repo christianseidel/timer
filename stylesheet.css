@@ -1,11 +1,13 @@
 p {
     font-family: Verdana, sans-serif;
     font-size:14px;
+    color: white;
 }
 
 label {
     font-family: Verdana, sans-serif;
     font-size:14px;
+    color: white;
 }
 
 button {
@@ -42,6 +44,7 @@ input {
     font-size: 60px;
     color: white;
     font-family: Arial, sans-serif;
+    user-select: none;
 }
 
 .btn-container {
@@ -61,13 +64,15 @@ input {
     text-align: center;
     font-size: 38px;
     font-weight: bold;
-    color: white;
+    color: #000000;
     font-family: Calibri, serif;
+    user-select: none;
     display: none;
     box-shadow: 2px 3px 0 #f3c45d;
 }
 .btn:active {
     box-shadow: none;
+    text-shadow: #ffb400;
     position: relative;
     top: 3px;
     left: 2px;
