@@ -64,6 +64,13 @@ input {
     color: white;
     font-family: Calibri, serif;
     display: none;
+    box-shadow: 2px 3px 0 #f3c45d;
+}
+.btn:active {
+    box-shadow: none;
+    position: relative;
+    top: 3px;
+    left: 2px;
 }
 
 .btn-reset {

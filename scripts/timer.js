@@ -5,14 +5,18 @@ let minutes = 0, seconds = 0;
 let text = '';
 showTime(1000 * 60 * m);
 
-let alarm = new Audio('sound/mixkit-happy-bells-notification-937.wav');
-let click = new Audio('sound/classic-click.wav');
+let alarm = new Audio('sound/notification-happy-bells.wav');
+let btnStartAndStop = new Audio('sound/btn-start-and-stop.mp3');
+let btnReset = new Audio('sound/btn-reset.wav');
+
+const delay = 500; // anti-rebound for 500ms
+let lastExecution = 0;
 
 document.getElementById('btn-start').style.display = 'block';
 document.getElementById('btn-start').addEventListener('click', startTimer);
 
 function startTimer() {
-    click.play();
+    btnStartAndStop.play();
     document.getElementById('btn-start').style.display = 'none';
     document.getElementById('btn-stop').style.display = 'block';
 
@@ -37,7 +41,7 @@ function startTimer() {
                 showTime(1000 * 60 * m);
                 document.getElementById('btn-start').style.display = 'block';
                 document.getElementById('btn-stop').style.display = 'none';
-            }, 8000);
+            }, 3000);
         }
     }
 
@@ -45,7 +49,7 @@ function startTimer() {
     document.getElementById('btn-stop').addEventListener('click', stopTimer);
 
     function stopTimer() {
-        click.play();
+        btnStartAndStop.play();
         clearInterval(myTimer);
         console.log('timer stopped');
         document.getElementById('btn-stop').style.display = 'none';
@@ -65,16 +69,21 @@ function showTime(timeLeft) {
 document.getElementById('btn-reset').addEventListener('click', reset);
 
 function reset() {
-    click.play();
-    showTime(1000 * 60 * m);
-    document.getElementById('btn-reset').style.display = 'none';
-    document.getElementById('btn-start').style.display = 'block';
+    if ((lastExecution + delay) < Date.now()){
+        btnReset.play();
+        showTime(1000 * 60 * m);
+        document.getElementById('btn-reset').style.display = 'none';
+        document.getElementById('btn-start').style.display = 'block';
+        lastExecution = Date.now();
+    }
 }
 
 
 function validateInput() {
     m = document.getElementById('time-lapse01').value;
     if (m < 0) {
+        let errorLessThanZero = new Audio('sound/error-back-to-future.mp3');
+        errorLessThanZero.play()
         alert('Oups, sorry, this is not a time machine. This app only is a time counter.\n'
             + 'It will not allow you to travel into the past.\n\n' +
             'Instead of ' + m + ' please enter a positive value.')
@@ -92,11 +101,13 @@ function resetInput() {
 
 function setSound() {
         if (document.getElementById('sound1').checked) {
-            alarm = new Audio('sound/mixkit-happy-bells-notification-937.wav');
+            alarm = new Audio('sound/notification-happy-bells.wav');
         } else if (document.getElementById('sound2').checked) {
-            alarm = new Audio('sound/alarm.mp3');
+            alarm = new Audio('sound/notification-bubbly-strings.mp3');
         } else if (document.getElementById('sound3').checked) {
-            alarm = new Audio('sound/mixkit-musical-alert-notification-2309.wav');
+            alarm = new Audio('sound/notification-musical-alert.wav');
+        } else if (document.getElementById('sound4').checked) {
+            alarm = new Audio('sound/notification-positive-chime.mp3');
         }
 }
 
