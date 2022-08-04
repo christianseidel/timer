@@ -1,5 +1,22 @@
+p {
+    font-family: Verdana, sans-serif;
+    font-size:14px;
+}
+
+label {
+    font-family: Verdana, sans-serif;
+    font-size:14px;
+}
+
 button {
     cursor: pointer;
+    font-family: Verdana, sans-serif;
+    font-size:14px;
+}
+
+input {
+    font-family: Verdana, sans-serif;
+    font-size:14px;
 }
 
 .background-dark {
@@ -23,8 +40,8 @@ button {
 
 .timer {
     font-size: 60px;
-    color: white; 
-    font-family: arial, sans serif;
+    color: white;
+    font-family: Arial, sans-serif;
 }
 
 .btn-container {
@@ -46,10 +63,10 @@ button {
     font-weight: bold;
     color: white;
     font-family: Calibri, serif;
+    display: none;
 }
 
 .btn-reset {
-    display: block;
     margin-top: 12px;
     margin-bottom: 12px;
 }
@@ -58,12 +75,6 @@ button {
     margin-top: 12px;
     margin-bottom: 12px;
     margin-left: 6px;
-}
-
-.msg {
-    color: white;
-    margin-left: 36px;
-    display: none;
 }
 
 label {

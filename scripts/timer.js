@@ -1,91 +1,87 @@
+let timer = document.getElementById('timer');
+
+let m = 5;
+let minutes = 0, seconds = 0;
+let text = '';
+showTime(1000 * 60 * m);
+
 let alarm = new Audio('sound/alarm.mp3');
+
+document.getElementById('btn-start').style.display = 'block';
 document.getElementById('btn-start').addEventListener('click', startTimer);
 
-let timer = document.getElementById('timer');
-let m = 5;
-let mSaved = m;
-let minutes = 0;
-let seconds = 0;
-let text ='';
-showTime(1000 * 60 * m);
-let timerStarted = false;
-
 function startTimer() {
+    document.getElementById('btn-start').style.display = 'none';
+    document.getElementById('btn-stop').style.display = 'block';
 
-    if (!timerStarted) {
-        timerStarted = true;
-        let startTime = new Date().getTime();
-        let endTime = startTime + (1000 * 60 * m);
-        console.log('timer started');
+    let startTime = new Date().getTime();
+    let endTime = startTime + (1000 * 60 * m);
 
-        const myTimer = setInterval(runTimer, 1000);
+    console.log('timer started');
 
-        function runTimer() {
-            let timeLeft = endTime - new Date().getTime();
+    let myTimer = setInterval(runTimer, 1000);
 
-            if (timeLeft > 0) {
-                showTime(timeLeft);
-            } else {
-                clearInterval(myTimer);
-                timerStarted = false;
-                alarm.play();
-                timer.innerHTML = '00 : 00';
-                setTimeout(function () {
-                    m = mSaved;
-                    showTime(1000 * 60 * m);
-                    console.log('lapse terminated')
-                }, 11000);
-            }
+    function runTimer() {
+        let timeLeft = endTime - new Date().getTime();
+
+        if (timeLeft > 0) {
+            showTime(timeLeft);
+        } else {
+            clearInterval(myTimer);
+            alarm.play();
+            timer.innerHTML = '00 : 00';
+            console.log('lapse terminated')
+            setTimeout(function () {
+                showTime(1000 * 60 * m);
+                document.getElementById('btn-start').style.display = 'block';
+                document.getElementById('btn-stop').style.display = 'none';
+            }, 8000);
         }
+    }
 
-        document.getElementById('btn-stop').addEventListener('click', stopTimer);
 
-        function stopTimer() {
-            if (timerStarted) {
-                clearInterval(myTimer);
-                console.log('timer stopped');
-                let timeRemaining = timer.innerHTML;
-                let remainingMinutes = timeRemaining.slice(0 ,2);
-                let remainingSeconds = timeRemaining.slice(-2);
-                m = Number(remainingMinutes) + Number(remainingSeconds/60);
-                setTimeout(function () {
-                    timerStarted = false;
-                }, 1500);
-            } else {
-                showMessage('noStop', 'Timer isn\'t running');
-                console.log(timerStarted);
-            }
-        }
-    } else {
-        showMessage('noRun', 'Timer already started');
+    document.getElementById('btn-stop').addEventListener('click', stopTimer);
+
+    function stopTimer() {
+        clearInterval(myTimer);
+        console.log('timer stopped');
+        document.getElementById('btn-stop').style.display = 'none';
+        document.getElementById('btn-reset').style.display = 'block';
     }
 }
 
 function showTime(timeLeft) {
-    minutes = Math.floor(timeLeft / (1000 *60));
+    minutes = Math.floor(timeLeft / (1000 * 60));
     seconds = Math.round(timeLeft / 1000) % 60;
     seconds = ('0' + seconds).slice(-2);
     text = '0' + minutes + ' : ' + seconds;
     timer.innerHTML = text;
 }
 
+
 document.getElementById('btn-reset').addEventListener('click', reset);
 
 function reset() {
-    if (timerStarted) {
-        showMessage('noReset', 'Timer is still running')
-    } else {
-        m = mSaved;
-        showTime(1000 * 60 * m);
+    showTime(1000 * 60 * m);
+    document.getElementById('btn-reset').style.display = 'none';
+    document.getElementById('btn-start').style.display = 'block';
+}
+
+
+function validateInput() {
+    m = document.getElementById('time-lapse01').value;
+    if (m < 0) {
+        alert('Please enter the number of minutes required.\n' + m + ' minutes is not a valid input.')
     }
+    showTime(1000 * 60 * m);
+    document.getElementById('label-lapse01').innerHTML = (m == 1 ? 'Minute \u00A0' : 'Minuten');
 }
 
-function showMessage(idClip, message) {
-    document.getElementById('msg_' + idClip).style.display = 'block';
-    document.getElementById('msg_' + idClip).innerHTML = message;
-    setTimeout(function () {
-        document.getElementById('msg_' + idClip).style.display = 'none';
-    }, 2000);
-
+function resetInput() {
+    m = 5;
+    document.getElementById('timer').innerText = '05 : 00';
+    document.getElementById('label-lapse01').innerHTML = 'Minuten';
 }
+
+
 

@@ -1,35 +1,46 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="stylesheet.css">,
+    <link type="text/plain" rel="author" href="humans.txt"/>
     <title>Egg Timer</title>
+
 </head>
 
 <body class="background-black">
 
-<div class="center margin-top timer" id="timer"></div>
+<div class="center margin-top">
+    <img src="img/egg.png">
+</div>
+
+<div class="center timer" style="margin-top: 80px" id="timer"></div>
 
 <div class="btn-container">
     <div class="btn" id="btn-start">
         START
     </div>
-    <div class="msg" id="msg_noRun"></div>
-</div>
-<div class="btn-container">
     <div class="btn" id="btn-stop">
         STOP
     </div>
-    <div class="msg" id="msg_noStop"></div>
-</div>
-
-<div class="btn-container">
     <div class="btn" id="btn-reset">
         RESET
     </div>
-    <div class="msg" id="msg_noReset"></div>
 </div>
 
+<p style="color: white; margin-bottom:0px">
+    Wie lang soll der Countdown laufen?
+</p>
+<div>
+    <form>
+        <input type="number" value="5" id="time-lapse01" style="width: 60px">
+        <label style="color: white" for="time-lapse01" id="label-lapse01">
+            Minuten
+        </label>
+        <button class="btn-enter" type="button" onclick="validateInput()">setzen</button>
+        <button class="btn-reset" type="reset" onclick="resetInput()">zurücksetzen</button>
+    </form>
+</div>
 
 
 <script type="text/javascript" src="./scripts/timer.js"></script>
