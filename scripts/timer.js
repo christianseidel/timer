@@ -1,6 +1,6 @@
 let timer = document.getElementById('timer');
 
-let m = 5;
+let m = 2;
 let minutes = 0, seconds = 0;
 let text = '';
 showTime(1000 * 60 * m);
@@ -61,7 +61,8 @@ function showTime(timeLeft) {
     minutes = Math.floor(timeLeft / (1000 * 60));
     seconds = Math.round(timeLeft / 1000) % 60;
     seconds = ('0' + seconds).slice(-2);
-    text = '0' + minutes + ' : ' + seconds;
+    text = ('0' + minutes + ' : ' + seconds).slice(-7);
+    console.log('min: '+ minutes + ', sec: ' + seconds)
     timer.innerHTML = text;
 }
 
@@ -84,9 +85,9 @@ function validateInput() {
     if (m < 0) {
         let errorLessThanZero = new Audio('sound/error-back-to-future.mp3');
         errorLessThanZero.play()
-        alert('Oups, sorry, this is not a time machine. This app only is a time counter.\n'
+        alert('Oups, sorry, this is not a time machine. This app is a time counter only.\n'
             + 'It will not allow you to travel into the past.\n\n' +
-            'Instead of ' + m + ' please enter a positive value.')
+            'Instead of ' + m + ', please enter a positive value.')
         m = -m;
     }
     showTime(1000 * 60 * m);
