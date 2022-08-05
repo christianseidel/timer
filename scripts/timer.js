@@ -1,5 +1,9 @@
 let timer = document.getElementById('timer');
 
+let l = 1;
+let lSaved = 1;
+let round = 1;
+
 let m = 2;
 let minutes = 0, seconds = 0;
 let text = '';
@@ -19,11 +23,12 @@ function startTimer() {
     btnStartAndStop.play();
     document.getElementById('btn-start').style.display = 'none';
     document.getElementById('btn-stop').style.display = 'block';
+    document.getElementById('lapse').innerHTML = (l>1) ? 'Runde 1 von ' + l : '';
 
-    let startTime = new Date().getTime();
-    let endTime = startTime + (1000 * 60 * m);
+    let endTime = new Date().getTime() + (1000 * 60 * m);
 
     console.log('timer started');
+
 
     let myTimer = setInterval(runTimer, 1000);
 
@@ -33,15 +38,27 @@ function startTimer() {
         if (timeLeft > 0) {
             showTime(timeLeft);
         } else {
-            clearInterval(myTimer);
-            alarm.play();
-            timer.innerHTML = '00 : 00';
-            console.log('lapse terminated')
-            setTimeout(function () {
-                showTime(1000 * 60 * m);
-                document.getElementById('btn-start').style.display = 'block';
-                document.getElementById('btn-stop').style.display = 'none';
-            }, 3000);
+            --l;
+            console.log('l: ' + l);
+            if (l > 0) {
+                alarm.play();
+                console.log('lapse terminated (non-final)')
+                ++round;
+                document.getElementById('lapse').innerHTML = 'Runde ' + round + ' von ' + lSaved;
+                endTime = new Date().getTime() + (1000 * 60 * m);
+
+            } else {
+                clearInterval(myTimer);
+                alarm.play();
+                timer.innerHTML = '00 : 00';
+                console.log('lapse terminated (final)')
+                setTimeout(function () {
+                    showTime(1000 * 60 * m);
+                    document.getElementById('btn-start').style.display = 'block';
+                    document.getElementById('btn-stop').style.display = 'none';
+                    clearInterface();
+                }, 3000);
+            }
         }
     }
 
@@ -76,11 +93,36 @@ function reset() {
         document.getElementById('btn-reset').style.display = 'none';
         document.getElementById('btn-start').style.display = 'block';
         lastExecution = Date.now();
+        clearInterface();
     }
 }
 
+function clearInterface() {
+    document.getElementById('lapse').innerHTML = '';
+    l = lSaved;
+    round = 1;
 
-function validateInput() {
+}
+
+
+function validateLapsesSetting() {
+    l = document.getElementById('number-of-lapses').value;
+    lSaved = l;
+    if (l < 0) {
+        let errorLessThanZero = new Audio('sound/error-back-to-future.mp3');
+        errorLessThanZero.play()
+        alert('Sorry, a negative number of lapses isn\'t possible.')
+        l = 1;
+    }
+    document.getElementById('label-number-of-lapses').innerHTML = (l == 1 ? 'Runde \u00A0' : 'Runden');
+}
+
+function resetLapsesSetting() {
+    l = 1;
+    document.getElementById('label-number-of-lapses').innerHTML = 'Runde \u00A0';
+}
+
+function validateMinutesSetting() {
     m = document.getElementById('time-lapse01').value;
     if (m < 0) {
         let errorLessThanZero = new Audio('sound/error-back-to-future.mp3');
@@ -94,9 +136,9 @@ function validateInput() {
     document.getElementById('label-lapse01').innerHTML = (m == 1 ? 'Minute \u00A0' : 'Minuten');
 }
 
-function resetInput() {
-    m = 5;
-    document.getElementById('timer').innerText = '05 : 00';
+function resetMinutesSetting() {
+    m = 2;
+    showTime(1000 * 60 * m);
     document.getElementById('label-lapse01').innerHTML = 'Minuten';
 }
 
