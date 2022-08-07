@@ -4,14 +4,15 @@ let l = 1;
 let lSaved = 1;
 let round = 1;
 
-let m = 2;
-let minutes = 0, seconds = 0;
+let m = 2; let h = 0;
+let minutes = 0, seconds = 0, hours =0;
 let text = '';
-showTime(1000 * 60 * m);
+showTime((1000 * 60 * m) + (1000 * 60 * 60 * h));
 
 let alarm = new Audio('sound/notification-happy-bells.wav');
 let btnStartAndStop = new Audio('sound/btn-start-and-stop.mp3');
 let btnReset = new Audio('sound/btn-reset.wav');
+let errorAlarm = new Audio('sound/error-back-to-future.mp3');
 
 const delay = 500; // anti-rebound for 500ms
 let lastExecution = 0;
@@ -19,13 +20,14 @@ let lastExecution = 0;
 document.getElementById('btn-start').style.display = 'block';
 document.getElementById('btn-start').addEventListener('click', startTimer);
 
+
 function startTimer() {
     btnStartAndStop.play();
     document.getElementById('btn-start').style.display = 'none';
     document.getElementById('btn-stop').style.display = 'block';
     document.getElementById('lapse').innerHTML = (l>1) ? 'Runde 1 von ' + l : '';
 
-    let endTime = new Date().getTime() + (1000 * 60 * m);
+    let endTime = new Date().getTime() + ((1000 * 60 * m) + (1000 * 60 * 60 * h));
 
     console.log('timer started');
 
@@ -45,7 +47,7 @@ function startTimer() {
                 console.log('lapse terminated (non-final)')
                 ++round;
                 document.getElementById('lapse').innerHTML = 'Runde ' + round + ' von ' + lSaved;
-                endTime = new Date().getTime() + (1000 * 60 * m);
+                endTime = new Date().getTime() + ((1000 * 60 * m) + (1000 * 60 * 60 * h));
 
             } else {
                 clearInterval(myTimer);
@@ -53,7 +55,7 @@ function startTimer() {
                 timer.innerHTML = '00 : 00';
                 console.log('lapse terminated (final)')
                 setTimeout(function () {
-                    showTime(1000 * 60 * m);
+                    showTime((1000 * 60 * m) + (1000 * 60 * 60 * h));
                     document.getElementById('btn-start').style.display = 'block';
                     document.getElementById('btn-stop').style.display = 'none';
                     clearInterface();
@@ -75,11 +77,16 @@ function startTimer() {
 }
 
 function showTime(timeLeft) {
-    minutes = Math.floor(timeLeft / (1000 * 60));
+    hours = Math.floor(timeLeft / (1000 * 60 * 60));
+    minutes = Math.floor(timeLeft / (1000 * 60) - (hours * 60));
+    minutes = ('0' + minutes).slice(-2);
     seconds = Math.round(timeLeft / 1000) % 60;
     seconds = ('0' + seconds).slice(-2);
-    text = ('0' + minutes + ' : ' + seconds).slice(-7);
-    console.log('min: '+ minutes + ', sec: ' + seconds)
+    hours = (hours < 10) ? '0' + hours : hours;
+    text = (hours > 0)
+        ? (hours + ' : ' + minutes + ' : ' + seconds)
+        : (minutes + ' : ' + seconds);
+    console.log('hours: ' + hours + ', min: '+ minutes + ', sec: ' + seconds)
     timer.innerHTML = text;
 }
 
@@ -89,7 +96,7 @@ document.getElementById('btn-reset').addEventListener('click', reset);
 function reset() {
     if ((lastExecution + delay) < Date.now()){
         btnReset.play();
-        showTime(1000 * 60 * m);
+        showTime((1000 * 60 * m) + (1000 * 60 * 60 * h));
         document.getElementById('btn-reset').style.display = 'none';
         document.getElementById('btn-start').style.display = 'block';
         lastExecution = Date.now();
@@ -109,8 +116,7 @@ function validateLapsesSetting() {
     l = document.getElementById('number-of-lapses').value;
     lSaved = l;
     if (l < 0) {
-        let errorLessThanZero = new Audio('sound/error-back-to-future.mp3');
-        errorLessThanZero.play()
+        errorAlarm.play()
         alert('Sorry, a negative number of lapses isn\'t possible.')
         l = 1;
     }
@@ -122,25 +128,46 @@ function resetLapsesSetting() {
     document.getElementById('label-number-of-lapses').innerHTML = 'Runde \u00A0';
 }
 
-function validateMinutesSetting() {
-    m = document.getElementById('time-lapse01').value;
+function validateTimeSetting() {
+    m = document.getElementById('minutes-lapse01').value;
+    h = document.getElementById('hours-lapse01').value;
+    if (h < 0) {
+        let unit = h == -1 ? 'hour' : 'hours';
+        showAlert(h, unit);
+        h = 0;
+    }
     if (m < 0) {
-        let errorLessThanZero = new Audio('sound/error-back-to-future.mp3');
-        errorLessThanZero.play()
-        alert('Oups, sorry, this is not a time machine. This app is a time counter only.\n'
-            + 'It will not allow you to travel into the past.\n\n' +
-            'Instead of ' + m + ', please enter a positive value.')
+        let unit = m == -1 ? 'minute' : 'minutes';
+        showAlert(m, unit);
         m = -m;
     }
-    showTime(1000 * 60 * m);
-    document.getElementById('label-lapse01').innerHTML = (m == 1 ? 'Minute \u00A0' : 'Minuten');
+    if (m > 59) {
+        errorAlarm.play()
+        alert('Sorry, a number of minutes greater than 59 is not possible.');
+        m = 2;
+    }
+
+    showTime((1000 * 60 * m) + (1000 * 60 * 60 * h));
+    document.getElementById('label-minutes-lapse01').innerHTML = (m == 1 ? 'Minute \u00A0' : 'Minuten');
+    document.getElementById('label-hours-lapse01').innerHTML = (m == 1 ? 'Stunde \u00A0' : 'Stunden');
 }
 
-function resetMinutesSetting() {
+function resetTimeSetting() {
     m = 2;
-    showTime(1000 * 60 * m);
-    document.getElementById('label-lapse01').innerHTML = 'Minuten';
+    h = 0;
+    showTime((1000 * 60 * m) + (1000 * 60 * 60 * h));
+    document.getElementById('label-minutes-lapse01').innerHTML = 'Minuten';
+    document.getElementById('label-hours-lapse01').innerHTML = 'Stunden';
 }
+
+function showAlert(amount, unit) {
+    console.log(unit);
+    errorAlarm.play()
+    alert('Oups, sorry, this is not a time machine. This app is a time counter only.\n'
+        + 'It will not allow you to travel into the past.\n\n' +
+        'Instead of ' + amount + ' ' + unit + ', please enter a positive value.')
+}
+
 
 function setSound() {
         if (document.getElementById('sound1').checked) {
