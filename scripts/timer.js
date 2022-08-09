@@ -4,12 +4,15 @@ let l = 1;
 let lSaved = 1;
 let round = 1;
 
-let m = 2; let h = 0;
-let minutes = 0, seconds = 0, hours =0;
+let m = 2;
+let h = 0;
+let minutes = 0, seconds = 0, hours = 0;
 let text = '';
 showTime((1000 * 60 * m) + (1000 * 60 * 60 * h));
 
-let alarm = new Audio('sound/notification-happy-bells.wav');
+let alarm = localStorage.getItem('alarm');
+console.log('alarm saved: ' + localStorage.getItem('alarm'));
+console.log('alarm set: ' + alarm);
 let btnStartAndStop = new Audio('sound/btn-start-and-stop.mp3');
 let btnReset = new Audio('sound/btn-reset.wav');
 let errorAlarm = new Audio('sound/error-back-to-future.mp3');
@@ -25,7 +28,8 @@ function startTimer() {
     btnStartAndStop.play();
     document.getElementById('btn-start').style.display = 'none';
     document.getElementById('btn-stop').style.display = 'block';
-    document.getElementById('lapse').innerHTML = (l>1) ? 'Runde 1 von ' + l : '';
+    document.getElementById('lapse').innerHTML = (l > 1) ? 'Runde 1 von ' + l : '';
+    markActualAlarmSet();
 
     let endTime = new Date().getTime() + ((1000 * 60 * m) + (1000 * 60 * 60 * h));
 
@@ -43,7 +47,7 @@ function startTimer() {
             --l;
             console.log('l: ' + l);
             if (l > 0) {
-                alarm.play();
+                playAlarm();
                 console.log('lapse terminated (non-final)')
                 ++round;
                 document.getElementById('lapse').innerHTML = 'Runde ' + round + ' von ' + lSaved;
@@ -51,7 +55,7 @@ function startTimer() {
 
             } else {
                 clearInterval(myTimer);
-                alarm.play();
+                playAlarm();
                 timer.innerHTML = '00 : 00';
                 console.log('lapse terminated (final)')
                 setTimeout(function () {
@@ -86,7 +90,6 @@ function showTime(timeLeft) {
     text = (hours > 0)
         ? (hours + ' : ' + minutes + ' : ' + seconds)
         : (minutes + ' : ' + seconds);
-    console.log('hours: ' + hours + ', min: '+ minutes + ', sec: ' + seconds)
     timer.innerHTML = text;
 }
 
@@ -94,7 +97,7 @@ function showTime(timeLeft) {
 document.getElementById('btn-reset').addEventListener('click', reset);
 
 function reset() {
-    if ((lastExecution + delay) < Date.now()){
+    if ((lastExecution + delay) < Date.now()) {
         btnReset.play();
         showTime((1000 * 60 * m) + (1000 * 60 * 60 * h));
         document.getElementById('btn-reset').style.display = 'none';
@@ -161,7 +164,6 @@ function resetTimeSetting() {
 }
 
 function showAlert(amount, unit) {
-    console.log(unit);
     errorAlarm.play()
     alert('Oups, sorry, this is not a time machine. This app is a time counter only.\n'
         + 'It will not allow you to travel into the past.\n\n' +
@@ -169,18 +171,65 @@ function showAlert(amount, unit) {
 }
 
 
-function setSound() {
-        if (document.getElementById('sound1').checked) {
-            alarm = new Audio('sound/notification-happy-bells.wav');
-        } else if (document.getElementById('sound2').checked) {
-            alarm = new Audio('sound/notification-bubbly-strings.mp3');
-        } else if (document.getElementById('sound3').checked) {
-            alarm = new Audio('sound/notification-musical-alert.wav');
-        } else if (document.getElementById('sound4').checked) {
-            alarm = new Audio('sound/notification-positive-chime.mp3');
-        }
+function setAlarm() {
+    readAlarm();
+    localStorage.setItem('alarm', alarm);
 }
 
+function testAlarm() {
+    let alarmSet = alarm;
+    readAlarm();
+    playAlarm(alarm);
+    alarm = alarmSet;
+}
+
+function readAlarm() {
+    if (document.getElementById('sound1').checked) {
+        alarm = 'alarm1';
+    } else if (document.getElementById('sound2').checked) {
+        alarm = 'alarm2';
+    } else if (document.getElementById('sound3').checked) {
+        alarm = 'alarm3';
+    } else if (document.getElementById('sound4').checked) {
+        alarm = 'alarm4';
+    }
+}
+
+function markActualAlarmSet() {
+    switch (alarm) {
+        case 'alarm2':
+            document.getElementById('sound2').checked = true;
+            break;
+        case 'alarm3':
+            document.getElementById('sound3').checked = true;
+            break;
+        case 'alarm4':
+            document.getElementById('sound4').checked = true;
+            break;
+        default:
+            document.getElementById('sound1').checked = true;
+            break;
+    }
+}
+
+function playAlarm() {
+    console.log(alarm);
+    switch (alarm) {
+        case 'alarm2':
+            alarm = new Audio('sound/notification-bubbly-strings.mp3');
+            break;
+        case 'alarm3':
+            alarm = new Audio('sound/notification-musical-alert.wav');
+            break;
+        case 'alarm4':
+            alarm = new Audio('sound/notification-positive-chime.mp3');
+            break;
+        default:
+            alarm = new Audio('sound/notification-happy-bells.wav');
+            break;
+    }
+    alarm.play();
+}
 
 
 

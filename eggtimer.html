@@ -63,25 +63,26 @@
         Klingelton:
     </p>
     <form>
-        <input type="radio" id="sound1" name="sound" value="happy_bells" checked>
+        <input type="radio" id="sound1" name="sound" checked>
         <label for="sound1">
             Happy Bells
         </label><br>
-        <input type="radio" id="sound2" name="sound" value="bubbly_strings">
+        <input type="radio" id="sound2" name="sound">
         <label for="sound2">
             Bubbly Strings
         </label><br>
-        <input type="radio" id="sound3" name="sound" value="musical_alert">
+        <input type="radio" id="sound3" name="sound">
         <label for="sound3">
             Musical Alert
         </label><br>
-        <input type="radio" id="sound4" name="sound" value="positive-chime">
+        <input type="radio" id="sound4" name="sound">
         <label for="sound4">
             Positive Chime
         </label><br>
 
 
-        <button class="btn-reset" type="button" onclick="setSound()">auswählen</button>
+        <button class="btn-reset" type="button" onclick="testAlarm()">testen</button>
+        <button class="btn-reset" type="button" onclick="setAlarm()">setzen</button>
     </form>
 </div>
 
