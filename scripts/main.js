@@ -62,7 +62,7 @@ function startTimer() {
                     document.getElementById('btn-start').style.display = 'block';
                     document.getElementById('btn-stop').style.display = 'none';
                     clearInterface();
-                }, 3000);
+                }, 4000);
             }
         }
     }
@@ -110,7 +110,6 @@ function clearInterface() {
     document.getElementById('lapse').innerHTML = '';
     l = lSaved;
     round = 1;
-
 }
 
 
@@ -148,7 +147,6 @@ function validateTimeSetting() {
         alert('Sorry, a number of minutes greater than 59 is not possible.');
         m = 2;
     }
-
     showTime((1000 * 60 * m) + (1000 * 60 * 60 * h));
     document.getElementById('label-minutes-lapse01').innerHTML = (m == 1 ? 'Minute \u00A0' : 'Minuten');
     document.getElementById('label-hours-lapse01').innerHTML = (m == 1 ? 'Stunde \u00A0' : 'Stunden');
