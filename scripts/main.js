@@ -52,7 +52,6 @@ function startTimer() {
                 ++round;
                 document.getElementById('lapse').innerHTML = 'Runde ' + round + ' von ' + lSaved;
                 endTime = new Date().getTime() + ((1000 * 60 * m) + (1000 * 60 * 60 * h));
-
             } else {
                 clearInterval(myTimer);
                 playAlarm();
@@ -213,22 +212,22 @@ function markActualAlarmSet() {
 }
 
 function playAlarm() {
-    console.log(alarm);
+    let alarmToPlay;
     switch (alarm) {
         case 'alarm2':
-            alarm = new Audio('sound/notification-bubbly-strings.mp3');
+            alarmToPlay = new Audio('sound/notification-bubbly-strings.mp3');
             break;
         case 'alarm3':
-            alarm = new Audio('sound/notification-musical-alert.wav');
+            alarmToPlay = new Audio('sound/notification-musical-alert.wav');
             break;
         case 'alarm4':
-            alarm = new Audio('sound/notification-positive-chime.mp3');
+            alarmToPlay = new Audio('sound/notification-positive-chime.mp3');
             break;
         default:
-            alarm = new Audio('sound/notification-happy-bells.wav');
+            alarmToPlay = new Audio('sound/notification-happy-bells.wav');
             break;
     }
-    alarm.play();
+    alarmToPlay.play();
 }
 
 
