@@ -1,4 +1,4 @@
-let timer = document.getElementById('timer');
+let main = document.getElementById('main');
 
 let l = 1;
 let lSaved = 1;
@@ -33,7 +33,7 @@ function startTimer() {
 
     let endTime = new Date().getTime() + ((1000 * 60 * m) + (1000 * 60 * 60 * h));
 
-    console.log('timer started');
+    console.log('main started');
 
 
     let myTimer = setInterval(runTimer, 1000);
@@ -56,7 +56,7 @@ function startTimer() {
             } else {
                 clearInterval(myTimer);
                 playAlarm();
-                timer.innerHTML = '00 : 00';
+                main.innerHTML = '00 : 00';
                 console.log('lapse terminated (final)')
                 setTimeout(function () {
                     showTime((1000 * 60 * m) + (1000 * 60 * 60 * h));
@@ -74,7 +74,7 @@ function startTimer() {
     function stopTimer() {
         btnStartAndStop.play();
         clearInterval(myTimer);
-        console.log('timer stopped');
+        console.log('main stopped');
         document.getElementById('btn-stop').style.display = 'none';
         document.getElementById('btn-reset').style.display = 'block';
     }
@@ -90,7 +90,7 @@ function showTime(timeLeft) {
     text = (hours > 0)
         ? (hours + ' : ' + minutes + ' : ' + seconds)
         : (minutes + ' : ' + seconds);
-    timer.innerHTML = text;
+    main.innerHTML = text;
 }
 
 
