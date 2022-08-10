@@ -1,4 +1,4 @@
 /* Author */
     Coder: Christian Seidel
-    Contact: let [at] parameter5.de
+    Contact: cseidel [at] parameter5.de
     From: Radolfzell, Germany
