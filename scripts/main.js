@@ -24,7 +24,9 @@ document.getElementById('btn-start').addEventListener('click', startTimer);
 
 
 function startTimer() {
-    document.
+    let favicon = document.getElementById('favicon');
+    console.log('working?' + favicon);
+    favicon.setAttribute("href", "favicon2.ico");
     btnStartAndStop.play();
     document.getElementById('btn-start').style.display = 'none';
     document.getElementById('btn-stop').style.display = 'block';
