@@ -12,8 +12,6 @@ showTime((1000 * 60 * m) + (1000 * 60 * 60 * h));
 
 let alarm = localStorage.getItem('alarm');
 markActualAlarmSet();
-console.log('alarm saved: ' + localStorage.getItem('alarm'));
-console.log('alarm set: ' + alarm);
 let btnStartAndStop = new Audio('sound/btn-start-and-stop.mp3');
 let btnReset = new Audio('sound/btn-reset.wav');
 let errorAlarm = new Audio('sound/error-back-to-future.mp3');
@@ -194,7 +192,6 @@ function readAlarm() {
 }
 
 function markActualAlarmSet() {
-    console.log('mark it!')
     switch (alarm) {
         case 'alarm2':
             document.getElementById('sound2').checked = true;
