@@ -194,6 +194,7 @@ function readAlarm() {
 }
 
 function markActualAlarmSet() {
+    console.log('mark it!')
     switch (alarm) {
         case 'alarm2':
             document.getElementById('sound2').checked = true;
