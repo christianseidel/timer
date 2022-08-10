@@ -11,6 +11,7 @@ let text = '';
 showTime((1000 * 60 * m) + (1000 * 60 * 60 * h));
 
 let alarm = localStorage.getItem('alarm');
+markActualAlarmSet();
 console.log('alarm saved: ' + localStorage.getItem('alarm'));
 console.log('alarm set: ' + alarm);
 let btnStartAndStop = new Audio('sound/btn-start-and-stop.mp3');
