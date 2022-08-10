@@ -25,7 +25,6 @@ document.getElementById('btn-start').addEventListener('click', startTimer);
 
 function startTimer() {
     let favicon = document.getElementById('favicon');
-    console.log('working?' + favicon);
     favicon.setAttribute("href", "favicon2.ico");
     btnStartAndStop.play();
     document.getElementById('btn-start').style.display = 'none';
@@ -59,6 +58,7 @@ function startTimer() {
                 playAlarm();
                 timer.innerHTML = '00 : 00';
                 console.log('lapse terminated (final)')
+                favicon.setAttribute("href", "favicon.ico");
                 setTimeout(function () {
                     showTime((1000 * 60 * m) + (1000 * 60 * 60 * h));
                     document.getElementById('btn-start').style.display = 'block';
@@ -76,6 +76,7 @@ function startTimer() {
         btnStartAndStop.play();
         clearInterval(myTimer);
         console.log('timer stopped');
+        favicon.setAttribute("href", "favicon.ico");
         document.getElementById('btn-stop').style.display = 'none';
         document.getElementById('btn-reset').style.display = 'block';
     }
