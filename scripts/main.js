@@ -129,7 +129,7 @@ function validateLapsesSetting() {
 }
 
 function resetLapsesSetting() {
-    l = 5;
+    l = 2;
     document.getElementById('label-number-of-lapses').innerHTML = 'Runde';
 }
 
