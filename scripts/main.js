@@ -123,13 +123,14 @@ function validateLapsesSetting() {
         errorAlarm.play()
         alert('Sorry, a negative number of lapses isn\'t possible.')
         l = 1;
+        document.getElementById('number-of-lapses').value = l;
     }
-    document.getElementById('label-number-of-lapses').innerHTML = (l == 1 ? 'Runde \u00A0' : 'Runden');
+    document.getElementById('label-number-of-lapses').innerHTML = (l == 1 ? 'Runde' : 'Runden');
 }
 
 function resetLapsesSetting() {
     l = 1;
-    document.getElementById('label-number-of-lapses').innerHTML = 'Runde \u00A0';
+    document.getElementById('label-number-of-lapses').innerHTML = 'Runde';
 }
 
 function validateTimeSetting() {
@@ -139,20 +140,23 @@ function validateTimeSetting() {
         let unit = h == -1 ? 'hour' : 'hours';
         showAlert(h, unit);
         h = 0;
+        document.getElementById('hours-lapse01').value = 0;
     }
     if (m < 0) {
         let unit = m == -1 ? 'minute' : 'minutes';
         showAlert(m, unit);
         m = -m;
+        document.getElementById('minutes-lapse01').value = m;
     }
     if (m > 59) {
         errorAlarm.play()
         alert('Sorry, a number of minutes greater than 59 is not possible.');
         m = 2;
+        document.getElementById('minutes-lapse01').value = m;
     }
     showTime((1000 * 60 * m) + (1000 * 60 * 60 * h));
-    document.getElementById('label-minutes-lapse01').innerHTML = (m == 1 ? 'Minute \u00A0' : 'Minuten');
-    document.getElementById('label-hours-lapse01').innerHTML = (m == 1 ? 'Stunde \u00A0' : 'Stunden');
+    document.getElementById('label-minutes-lapse01').innerHTML = (m == 1 ? 'Minute' : 'Minuten');
+    document.getElementById('label-hours-lapse01').innerHTML = (h == 1 ? 'Stunde' : 'Stunden');
 }
 
 function resetTimeSetting() {
