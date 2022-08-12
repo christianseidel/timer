@@ -15,6 +15,7 @@ markActualAlarmSet();
 let btnStartAndStop = new Audio('sound/btn-start-and-stop.mp3');
 let btnReset = new Audio('sound/btn-reset.wav');
 let errorAlarm = new Audio('sound/error-back-to-future.mp3');
+let click = new Audio('sound/click.mp3');
 
 const delay = 500; // anti-rebound for 500ms
 let lastExecution = 0;
@@ -117,6 +118,7 @@ function clearInterface() {
 
 
 function validateLapsesSetting() {
+    confirmSetting('check-mark-lapses-set')
     l = document.getElementById('number-of-lapses').value;
     lSaved = l;
     if (l < 0) {
@@ -129,11 +131,13 @@ function validateLapsesSetting() {
 }
 
 function resetLapsesSetting() {
-    l = 2;
+    confirmSetting('check-mark-lapses-reset')
+    l = 1;
     document.getElementById('label-number-of-lapses').innerHTML = 'Runde';
 }
 
 function validateTimeSetting() {
+    confirmSetting('check-mark-time-set')
     m = document.getElementById('minutes-lapse01').value;
     h = document.getElementById('hours-lapse01').value;
     if (h < 0) {
@@ -160,11 +164,20 @@ function validateTimeSetting() {
 }
 
 function resetTimeSetting() {
+    confirmSetting('check-mark-time-reset')
     m = 2;
     h = 0;
     showTime((1000 * 60 * m) + (1000 * 60 * 60 * h));
     document.getElementById('label-minutes-lapse01').innerHTML = 'Minuten';
     document.getElementById('label-hours-lapse01').innerHTML = 'Stunden';
+}
+
+function confirmSetting(location) {
+    click.play();
+    document.getElementById(location).innerHTML = '&#10004;'
+    setTimeout(function () {
+        document.getElementById(location).innerHTML = ''
+    }, 2000);
 }
 
 function showAlert(amount, unit) {
@@ -178,6 +191,7 @@ function showAlert(amount, unit) {
 function setAlarm() {
     readAlarm();
     localStorage.setItem('alarm', alarm);
+    confirmSetting('check-mark-alarm-set');
 }
 
 function testAlarm() {

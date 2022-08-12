@@ -109,3 +109,12 @@ input {
 label {
     margin-left: 6px;
 }
+
+.check-mark {
+    margin-left: 0px;
+    color: chartreuse;
+    font-size: 16pt;
+    font-weight: bold;
+    position: relative;
+    bottom: -2pt;
+}
