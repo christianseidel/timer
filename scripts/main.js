@@ -118,7 +118,7 @@ function clearInterface() {
 
 
 function validateLapsesSetting() {
-    confirmSetting('check-mark-lapses-set')
+    confirmSetting('check-mark-lapses-reset')
     l = document.getElementById('number-of-lapses').value;
     lSaved = l;
     if (l < 0) {
@@ -137,7 +137,7 @@ function resetLapsesSetting() {
 }
 
 function validateTimeSetting() {
-    confirmSetting('check-mark-time-set')
+    confirmSetting('check-mark-time-reset')
     m = document.getElementById('minutes-lapse01').value;
     h = document.getElementById('hours-lapse01').value;
     if (h < 0) {
@@ -177,7 +177,7 @@ function confirmSetting(location) {
     document.getElementById(location).innerHTML = '&#10004;'
     setTimeout(function () {
         document.getElementById(location).innerHTML = ''
-    }, 2000);
+    }, 1000);
 }
 
 function showAlert(amount, unit) {

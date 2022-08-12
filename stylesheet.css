@@ -110,8 +110,12 @@ label {
     margin-left: 6px;
 }
 
+#lapse {
+    color: #ffb400;
+}
+
 .check-mark {
-    margin-left: 0px;
+    margin-left: 12px;
     color: chartreuse;
     font-size: 16pt;
     font-weight: bold;
