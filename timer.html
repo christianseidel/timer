@@ -2,17 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="stylesheet.css">,
+    <link rel="stylesheet" href="styles/stylesheet.css">,
     <link type="text/plain" rel="author" href="humans.txt"/>
-    <link rel="shortcut icon" type="image/x-icon" href="favicon_trz.ico" id="favicon">
-    <title>Sonjas Timer</title>
+    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" id="favicon">
+    <title>Timer</title>
 
 </head>
 
 <body class="background-black">
 
 <div class="center margin-top">
-    <img src="img/egg.png">
+    <img src="images/egg.png" id="image-egg" alt="ein Ei">
 </div>
 
 <div class="center timer" style="margin-top: 80px" id="timer"></div>
@@ -33,22 +33,27 @@
     <p id="lapse"></p>
 </div>
 
+<div class="center">
+    <p id="stop-the-egg"></p>
+</div>
+
+
 <div>
-    <p style="margin-bottom: 0px">
+    <p style="margin-bottom: 0">
         Anzahl der Durchgänge:
     </p>
     <form>
-        <input id="number-of-lapses" type="number" value="1" min="1" style="width: 42px">
-        <label for="number-of-lapses" id="label-number-of-lapses">Runde</label>
-        <button class="btn-enter" type="button" onclick="validateLapsesSetting()">setzen</button>
-        <span class="check-mark" id="check-mark-lapses-set" style="margin-left:0px"></span>
-        <button class="btn-reset" type="reset" onclick="resetLapsesSetting()">zurücksetzen</button>
-        <span class="check-mark" id="check-mark-lapses-reset"></span>
+        <input id="number-of-cycles" type="number" value="1" min="1" style="width: 42px">
+        <label for="number-of-cycles" id="label-number-of-cycles">Runde</label>
+        <button class="btn-enter" type="button" onclick="validateCycleSetting()">setzen</button>
+        <span class="checkmark" id="checkmark-cycles-set" style="margin-left:0"></span>
+        <button class="btn-reset" type="reset" onclick="resetCyclesSetting()">zurücksetzen</button>
+        <span class="checkmark" id="checkmark-cycles-reset"></span>
     </form>
 </div>
 
 <div>
-    <p style="margin-bottom: 0px">
+    <p style="margin-bottom: 0">
         Dauer der Zeitschleife:
     </p>
     <form>
@@ -57,9 +62,9 @@
         <input id="minutes-lapse01" type="number" value="2" min="0" max="59" style="width: 42px; margin-left: 6px">
         <label for="minutes-lapse01" id="label-minutes-lapse01">Minuten</label>
         <button class="btn-enter" type="button" onclick="validateTimeSetting()">setzen</button>
-        <span class="check-mark" id="check-mark-time-set" style="margin-left:0px"></span>
+        <span class="checkmark" id="checkmark-time-set" style="margin-left:0"></span>
         <button class="btn-reset" type="reset" onclick="resetTimeSetting()">zurücksetzen</button>
-        <span class="check-mark" id="check-mark-time-reset"></span>
+        <span class="checkmark" id="checkmark-time-reset"></span>
     </form>
 </div>
 
@@ -88,7 +93,7 @@
 
         <button class="btn-reset" type="button" onclick="testAlarm()">testen</button>
         <button class="btn-reset" type="button" onclick="setAlarm()">setzen</button>
-        <span class="check-mark" id="check-mark-alarm-set"></span>
+        <span class="checkmark" id="checkmark-alarm-set"></span>
     </form>
 </div>
 

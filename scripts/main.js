@@ -1,8 +1,8 @@
 let timer = document.getElementById('timer');
 
-let l = 1;
-let lSaved = 1;
-let round = 1;
+let cycle = 1;
+let cycleSaved = 1;
+let lapse = 1;
 
 let m = 2;
 let h = 0;
@@ -12,10 +12,10 @@ showTime((1000 * 60 * m) + (1000 * 60 * 60 * h));
 
 let alarm = localStorage.getItem('alarm');
 markActualAlarmSet();
-let btnStartAndStop = new Audio('sound/btn-start-and-stop.mp3');
-let btnReset = new Audio('sound/btn-reset.wav');
-let errorAlarm = new Audio('sound/error-back-to-future.mp3');
-let click = new Audio('sound/click.mp3');
+let soundStartAndStop = new Audio('sound/btn-start-and-stop.mp3');
+let soundReset = new Audio('sound/btn-reset.wav');
+let soundError = new Audio('sound/error-back-to-future.mp3');
+let soundClick = new Audio('sound/click.mp3');
 
 const delay = 500; // anti-rebound for 500ms
 let lastExecution = 0;
@@ -23,14 +23,11 @@ let lastExecution = 0;
 document.getElementById('btn-start').style.display = 'block';
 document.getElementById('btn-start').addEventListener('click', startTimer);
 
-
 function startTimer() {
-    let favicon = document.getElementById('favicon');
-    favicon.setAttribute("href", "favicon2.ico");
-    btnStartAndStop.play();
+    soundStartAndStop.play();
     document.getElementById('btn-start').style.display = 'none';
     document.getElementById('btn-stop').style.display = 'block';
-    document.getElementById('lapse').innerHTML = (l > 1) ? 'Runde 1 von ' + l : '';
+    document.getElementById('lapse').innerHTML = (cycle > 1) ? 'Runde 1 von ' + cycle : '';
     markActualAlarmSet();
 
     let endTime = new Date().getTime() + ((1000 * 60 * m) + (1000 * 60 * 60 * h));
@@ -46,20 +43,19 @@ function startTimer() {
         if (timeLeft > 0) {
             showTime(timeLeft);
         } else {
-            --l;
-            console.log('l: ' + l);
-            if (l > 0) {
+            --cycle;
+            console.log('cycle: ' + cycle);
+            if (cycle > 0) {
                 playAlarm();
-                console.log('lapse terminated (non-final)')
-                ++round;
-                document.getElementById('lapse').innerHTML = 'Runde ' + round + ' von ' + lSaved;
+                console.log('cycle terminated (non-final)')
+                ++lapse;
+                document.getElementById('lapse').innerHTML = 'Runde ' + lapse + ' von ' + cycleSaved;
                 endTime = new Date().getTime() + ((1000 * 60 * m) + (1000 * 60 * 60 * h));
             } else {
                 clearInterval(myTimer);
                 playAlarm();
                 timer.innerHTML = '00 : 00';
-                console.log('lapse terminated (final)')
-                favicon.setAttribute("href", "favicon.ico");
+                console.log('cycle terminated (final)')
                 setTimeout(function () {
                     showTime((1000 * 60 * m) + (1000 * 60 * 60 * h));
                     document.getElementById('btn-start').style.display = 'block';
@@ -74,10 +70,9 @@ function startTimer() {
     document.getElementById('btn-stop').addEventListener('click', stopTimer);
 
     function stopTimer() {
-        btnStartAndStop.play();
+        soundStartAndStop.play();
         clearInterval(myTimer);
         console.log('timer stopped');
-        favicon.setAttribute("href", "favicon.ico");
         document.getElementById('btn-stop').style.display = 'none';
         document.getElementById('btn-reset').style.display = 'block';
     }
@@ -101,7 +96,7 @@ document.getElementById('btn-reset').addEventListener('click', reset);
 
 function reset() {
     if ((lastExecution + delay) < Date.now()) {
-        btnReset.play();
+        soundReset.play();
         showTime((1000 * 60 * m) + (1000 * 60 * 60 * h));
         document.getElementById('btn-reset').style.display = 'none';
         document.getElementById('btn-start').style.display = 'block';
@@ -112,49 +107,49 @@ function reset() {
 
 function clearInterface() {
     document.getElementById('lapse').innerHTML = '';
-    l = lSaved;
-    round = 1;
+    cycle = cycleSaved;
+    lapse = 1;
 }
 
 
-function validateLapsesSetting() {
-    confirmSetting('check-mark-lapses-reset')
-    l = document.getElementById('number-of-lapses').value;
-    lSaved = l;
-    if (l < 0) {
-        errorAlarm.play()
-        alert('Sorry, a negative number of lapses isn\'t possible.')
-        l = 1;
-        document.getElementById('number-of-lapses').value = l;
+function validateCycleSetting() {
+    confirmSetting('checkmark-cycles-reset')
+    cycle = document.getElementById('number-of-cycles').value;
+    cycleSaved = cycle;
+    if (cycle <= 0) {
+        soundError.play()
+        alert('Achtung, die Anzahl der Runden muss mindestens 1 betragen.')
+        cycle = 1;
+        document.getElementById('number-of-cycles').value = cycle;
     }
-    document.getElementById('label-number-of-lapses').innerHTML = (l == 1 ? 'Runde' : 'Runden');
+    document.getElementById('label-number-of-cycles').innerHTML = (cycle == 1 ? 'Runde' : 'Runden');
 }
 
-function resetLapsesSetting() {
-    confirmSetting('check-mark-lapses-reset')
-    l = 1;
-    document.getElementById('label-number-of-lapses').innerHTML = 'Runde';
+function resetCyclesSetting() {
+    confirmSetting('checkmark-cycles-reset')
+    cycle = 1;
+    document.getElementById('label-number-of-cycles').innerHTML = 'Runde';
 }
 
 function validateTimeSetting() {
-    confirmSetting('check-mark-time-reset')
+    confirmSetting('checkmark-time-reset')
     m = document.getElementById('minutes-lapse01').value;
     h = document.getElementById('hours-lapse01').value;
     if (h < 0) {
-        let unit = h == -1 ? 'hour' : 'hours';
+        let unit = h == -1 ? 'Stunde' : 'Stunden';
         showAlert(h, unit);
         h = 0;
         document.getElementById('hours-lapse01').value = 0;
     }
     if (m < 0) {
-        let unit = m == -1 ? 'minute' : 'minutes';
+        let unit = m == -1 ? 'Minute' : 'Minuten';
         showAlert(m, unit);
         m = -m;
         document.getElementById('minutes-lapse01').value = m;
     }
     if (m > 59) {
-        errorAlarm.play()
-        alert('Sorry, a number of minutes greater than 59 is not possible.');
+        soundError.play()
+        alert('Sorry, die Eingabe von mehr als 59 Minuten ist nicht möglich.');
         m = 2;
         document.getElementById('minutes-lapse01').value = m;
     }
@@ -164,7 +159,7 @@ function validateTimeSetting() {
 }
 
 function resetTimeSetting() {
-    confirmSetting('check-mark-time-reset')
+    confirmSetting('checkmark-time-reset')
     m = 2;
     h = 0;
     showTime((1000 * 60 * m) + (1000 * 60 * 60 * h));
@@ -173,7 +168,7 @@ function resetTimeSetting() {
 }
 
 function confirmSetting(location) {
-    click.play();
+    soundClick.play();
     document.getElementById(location).innerHTML = '&#10004;'
     setTimeout(function () {
         document.getElementById(location).innerHTML = ''
@@ -181,17 +176,17 @@ function confirmSetting(location) {
 }
 
 function showAlert(amount, unit) {
-    errorAlarm.play()
-    alert('Oups, sorry, this is not a time machine. This app is a time counter only.\n'
-        + 'It will not allow you to travel into the past.\n\n' +
-        'Instead of ' + amount + ' ' + unit + ', please enter a positive value.')
+    soundError.play()
+    alert('Oups, Sorry, diese App ist keine Zeitmaschine. Sie ist einfach nur ein Kurzzeitwecker. '
+        + 'Eine Reise in die Vergangenheit ist mit ihr nicht möglich.\n\n' +
+        'Bitte gib statt ' + amount + ' ' + unit + ' einen positiven Wert an.')
 }
 
 
 function setAlarm() {
     readAlarm();
     localStorage.setItem('alarm', alarm);
-    confirmSetting('check-mark-alarm-set');
+    confirmSetting('checkmark-alarm-set');
 }
 
 function testAlarm() {
@@ -249,5 +244,22 @@ function playAlarm() {
     alarmToPlay.play();
 }
 
+/*
+function rotateEgg() {
+    document.getElementById('stop-the-egg').style.display = 'block'
+    let angle = 0;
+    document.getElementById('image-egg').style.transform = 'rotate(' + angle + 'deg)';
+    let turningEgg = setInterval(function () {
+        ++angle;
+        document.getElementById('image-egg').style.transform = 'rotate(' + angle + 'deg)';
+        if (angle === 360) {
+            angle = -1;
+            clearInterval(turningEgg);
+        }
+    }, 20);
 
+    function stopIt() {
+        clearInterval(turningEgg);
+    }
 
+*/
