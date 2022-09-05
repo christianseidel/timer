@@ -1,5 +1,9 @@
+body {
+    background-color: #000000;
+}
+
 p {
-    font-family: Verdana, sans-serif;
+    font-family: fantasy, Verdana, sans-serif;
     font-size:14px;
     color: white;
 }
@@ -30,16 +34,6 @@ input {
     font-family: Verdana, sans-serif;
     font-size:14px;
     background: #f9e1ae;;
-}
-
-.background-dark {
-    background-color: #262626;
-}
-.background-blue {
-    background-color: blue;
-}
-.background-black {
-    background-color: #000000;
 }
 
 .center {
