@@ -117,8 +117,8 @@ let cycle = localStorage.getItem("cycles") > 1
 let cycleSaved = cycle;
 let lapse = 1;
 
-let manipulateCycle = document.getElementById('number-of-cycles').value;
-document.getElementById('label-number-of-cycles').innerHTML = (manipulateCycle == 1 ? 'Runde' : 'Runden');
+document.getElementById('number-of-cycles').value = cycle;
+document.getElementById('label-number-of-cycles').innerHTML = (cycle == 1 ? 'Runde' : 'Runden');
 document.getElementById('number-of-cycles').addEventListener('change', labelCycleCounter);
 document.getElementById('set-number-of-cycles').addEventListener('click', validateCycleSetting);
 
