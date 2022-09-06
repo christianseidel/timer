@@ -124,8 +124,8 @@ document.getElementById('set-number-of-cycles').addEventListener('click', valida
 
 
 function labelCycleCounter() {
-    cycle = document.getElementById('number-of-cycles').value;
-    document.getElementById('label-number-of-cycles').innerHTML = (cycle == 1 ? 'Runde' : 'Runden');
+    manipulateCycle = document.getElementById('number-of-cycles').value;
+    document.getElementById('label-number-of-cycles').innerHTML = (manipulateCycle == 1 ? 'Runde' : 'Runden');
 }
 
 function validateCycleSetting() {
@@ -152,6 +152,25 @@ function resetCyclesSetting() {
 
 
 //----------- CONTROL TIME SETTING -----------//
+
+let manipulateHours = document.getElementById('hours-lapse01').value;
+document.getElementById('label-hours-lapse01').innerHTML = (manipulateHours == 1 ? 'Stunde' : 'Stunden');
+document.getElementById('hours-lapse01').addEventListener('change', labelHoursSetting);
+document.getElementById('set-hours').addEventListener('click', validateTimeSetting);
+
+function labelHoursSetting() {
+    manipulateHours = document.getElementById('hours-lapse01').value;
+    document.getElementById('label-hours-lapse01').innerHTML = (manipulateHours == 1 ? 'Stunde' : 'Stunden');
+}
+
+let manipulateMinutes = document.getElementById('minutes-lapse01').value;
+document.getElementById('label-minutes-lapse01').innerHTML = (manipulateMinutes == 1 ? 'Minute' : 'Minuten');
+document.getElementById('minutes-lapse01').addEventListener('change', labelMinutesSetting);
+
+function labelMinutesSetting() {
+    manipulateMinutes = document.getElementById('minutes-lapse01').value;
+    document.getElementById('label-minutes-lapse01').innerHTML = (manipulateMinutes == 1 ? 'Minute' : 'Minuten');
+}
 
 function validateTimeSetting() {
     confirmSetting('checkmark-time-reset')
