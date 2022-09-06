@@ -1,6 +1,14 @@
 let timer = document.getElementById('timer');
-let m = 2;
-let h = 0;
+let m = localStorage.getItem('m') > 0
+    ? localStorage.getItem('m')
+    : 2;
+document.getElementById('minutes-lapse01').value = m;
+
+let h = localStorage.getItem('h') > 0
+    ? localStorage.getItem('h')
+    : 0;
+document.getElementById('hours-lapse01').value = h;
+
 let minutes = 0, seconds = 0, hours = 0;
 let time = '';
 showTime((1000 * 60 * m) + (1000 * 60 * 60 * h));
@@ -111,8 +119,8 @@ function clearInterface() {
 
 //----------- CONTROL CYCLE SETTING -----------//
 
-let cycle = localStorage.getItem("cycles") > 1
-    ? localStorage.getItem("cycles")
+let cycle = localStorage.getItem('cycles') > 1
+    ? localStorage.getItem('cycles')
     : 1;
 let cycleSaved = cycle;
 let lapse = 1;
@@ -124,7 +132,7 @@ document.getElementById('set-number-of-cycles').addEventListener('click', valida
 
 
 function labelCycleCounter() {
-    manipulateCycle = document.getElementById('number-of-cycles').value;
+    let manipulateCycle = document.getElementById('number-of-cycles').value;
     document.getElementById('label-number-of-cycles').innerHTML = (manipulateCycle == 1 ? 'Runde' : 'Runden');
 }
 
@@ -138,7 +146,7 @@ function validateCycleSetting() {
         document.getElementById('number-of-cycles').value = cycle;
         document.getElementById('label-number-of-cycles').innerHTML = 'Runde';
     } else {
-        localStorage.setItem("cycles", cycle);
+        localStorage.setItem('cycles', cycle);
         cycleSaved = cycle;
     }
 }
@@ -181,18 +189,24 @@ function validateTimeSetting() {
         showAlert(h, unit);
         h = 0;
         document.getElementById('hours-lapse01').value = 0;
+        localStorage.setItem('h', '0');
     }
     if (m < 0) {
         let unit = m == -1 ? 'Minute' : 'Minuten';
         showAlert(m, unit);
         m = -m;
         document.getElementById('minutes-lapse01').value = m;
+        localStorage.setItem('m', 'm');
     }
     if (m > 59) {
         soundError.play()
         alert('Sorry, die Eingabe von mehr als 59 Minuten ist nicht möglich.');
         m = 2;
         document.getElementById('minutes-lapse01').value = m;
+        localStorage.setItem('m', '2');
+    } else {
+        localStorage.setItem('h', h);
+        localStorage.setItem('m', m);
     }
     showTime((1000 * 60 * m) + (1000 * 60 * 60 * h));
     document.getElementById('label-minutes-lapse01').innerHTML = (m == 1 ? 'Minute' : 'Minuten');
@@ -206,6 +220,8 @@ function resetTimeSetting() {
     showTime((1000 * 60 * m) + (1000 * 60 * 60 * h));
     document.getElementById('label-minutes-lapse01').innerHTML = 'Minuten';
     document.getElementById('label-hours-lapse01').innerHTML = 'Stunden';
+    localStorage.removeItem('m');
+    localStorage.removeItem('h');
 }
 
 function confirmSetting(location) {
