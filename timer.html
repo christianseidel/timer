@@ -2,100 +2,95 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="styles/stylesheet.css">,
+    <link rel="stylesheet" href="styles/stylesheet.css">
     <link type="text/plain" rel="author" href="humans.txt"/>
-    <link rel="shortcut icon" type="image/x-icon" href="images/faviconx.ico" id="favicon">
+    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" id="favicon">
     <title>Timer</title>
 </head>
 
-<body class="background-black">
+<body>
 
-<div class="center margin-top">
-    <img src="images/egg.png" id="image-egg" alt="ein Ei">
-</div>
+<div class="container">
+    <div class="control-side" id="control-panel">
+        <p class="form-title">Durchgänge:</p>
+            <form>
+                <input id="number-of-cycles" type="number" value="1" min="1">
+                <label for="number-of-cycles" id="label-number-of-cycles">Runde</label><br>
+                <button id="set-number-of-cycles" class="btn-enter" type="button">setzen</button>
+                <span class="checkmark" id="checkmark-cycles-set" style="margin-left:0"></span>
+                <button class="btn-reset" type="reset" onclick="resetCyclesSetting()">löschen</button>
+                <span class="checkmark" id="checkmark-cycles-reset"></span>
+            </form>
 
-<div class="center timer" style="margin-top: 80px" id="timer"></div>
+            <p class="form-title">Dauer der Zeitschleife:</p>
+            <form>
+                <input id="hours-lapse01" type="number" value="0" min="0" max="24">
+                <label for="hours-lapse01" id="label-hours-lapse01">Stunden</label>
+                <input id="minutes-lapse01" type="number" value="2" min="0" max="59" style="margin-left: 6px">
+                <label for="minutes-lapse01" id="label-minutes-lapse01">Minuten</label><br>
+                <button class="btn-enter" type="button" onclick="validateTimeSetting()">setzen</button>
+                <span class="checkmark" id="checkmark-time-set" style="margin-left:0"></span>
+                <button class="btn-reset" type="reset" onclick="resetTimeSetting()">löschen</button>
+                <span class="checkmark" id="checkmark-time-reset"></span>
+            </form>
 
-<div class="btn-container">
-    <div class="btn" id="btn-start">
-        START
+
+            <p class="form-title">Klingelton:</p>
+            <form>
+                <input type="radio" id="sound1" name="sound" checked>
+                <label for="sound1">
+                    Xylophon
+                </label><br>
+                <input type="radio" id="sound2" name="sound">
+                <label for="sound2">
+                    Saiten
+                </label><br>
+                <input type="radio" id="sound3" name="sound">
+                <label for="sound3">
+                    Panflöte
+                </label><br>
+                <input type="radio" id="sound4" name="sound">
+                <label for="sound4">
+                    Arpeggio
+                </label><br>
+
+                <button class="btn-reset" type="button" style="margin-right: 12px" onclick="testAlarm()">testen</button>
+                <button class="btn-reset" type="button" onclick="setAlarm()">setzen</button>
+                <span class="checkmark" id="checkmark-alarm-set"></span>
+            </form>
+
     </div>
-    <div class="btn" id="btn-stop">
-        STOP
+
+    <div class="display-side">
+
+        <div class="center margin-top">
+            <img src="images/egg.png" id="image-egg" alt="ein Ei">
+        </div>
+
+        <div class="center timer" style="margin-top: 80px" id="timer"></div>
+
+        <div class="btn-container">
+            <div class="btn" id="btn-start">
+                START
+            </div>
+            <div class="btn" id="btn-stop">
+                STOP
+            </div>
+            <div class="btn" id="btn-reset">
+                RESET
+            </div>
+        </div>
+
+        <div class="center margin-top">
+            <p id="lapse"></p>
+        </div>
+        <!--
+        <div class="center">
+            <p id="stop-the-egg"></p>
+        </div>
+        -->
     </div>
-    <div class="btn" id="btn-reset">
-        RESET
-    </div>
 </div>
-
-<div class="center margin-top">
-    <p id="lapse"></p>
-</div>
-
-<div class="center">
-    <p id="stop-the-egg"></p>
-</div>
-
-
-<div>
-    <p style="margin-bottom: 0">
-        Anzahl der Durchgänge:
-    </p>
-    <form>
-        <input id="number-of-cycles" type="number" value="1" min="1" style="width: 42px">
-        <label for="number-of-cycles" id="label-number-of-cycles">Runde</label>
-        <button class="btn-enter" type="button" onclick="validateCycleSetting()">setzen</button>
-        <span class="checkmark" id="checkmark-cycles-set" style="margin-left:0"></span>
-        <button class="btn-reset" type="reset" onclick="resetCyclesSetting()">zurücksetzen</button>
-        <span class="checkmark" id="checkmark-cycles-reset"></span>
-    </form>
-</div>
-
-<div>
-    <p style="margin-bottom: 0">
-        Dauer der Zeitschleife:
-    </p>
-    <form>
-        <input id="hours-lapse01" type="number" value="0" min="0" max="24" style=" width: 42px">
-        <label for="hours-lapse01" id="label-hours-lapse01">Stunden</label>
-        <input id="minutes-lapse01" type="number" value="2" min="0" max="59" style="width: 42px; margin-left: 6px">
-        <label for="minutes-lapse01" id="label-minutes-lapse01">Minuten</label>
-        <button class="btn-enter" type="button" onclick="validateTimeSetting()">setzen</button>
-        <span class="checkmark" id="checkmark-time-set" style="margin-left:0"></span>
-        <button class="btn-reset" type="reset" onclick="resetTimeSetting()">zurücksetzen</button>
-        <span class="checkmark" id="checkmark-time-reset"></span>
-    </form>
-</div>
-
-<div>
-    <p style="margin-top: 20px">
-        Klingelton:
-    </p>
-    <form>
-        <input type="radio" id="sound1" name="sound" checked>
-        <label for="sound1">
-            Xylophon
-        </label><br>
-        <input type="radio" id="sound2" name="sound">
-        <label for="sound2">
-            Saiten
-        </label><br>
-        <input type="radio" id="sound3" name="sound">
-        <label for="sound3">
-            Panflöte
-        </label><br>
-        <input type="radio" id="sound4" name="sound">
-        <label for="sound4">
-            Arpeggio
-        </label><br>
-
-
-        <button class="btn-reset" type="button" onclick="testAlarm()">testen</button>
-        <button class="btn-reset" type="button" onclick="setAlarm()">setzen</button>
-        <span class="checkmark" id="checkmark-alarm-set"></span>
-    </form>
-</div>
-
 
 <script type="text/javascript" src="scripts/main.js"></script>
 </body>

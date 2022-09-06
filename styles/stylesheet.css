@@ -2,10 +2,44 @@ body {
     background-color: #000000;
 }
 
-p {
-    font-family: fantasy, Verdana, sans-serif;
+.container {
+    display: flex;
+    height: 100%;
+    padding: 24px;
+    position: static;
+}
+
+.control-side {
+    width: 30%;
+    min-width: 320px;
+    padding: 24px;
+    margin-top: 100px;
+}
+
+.display-side {
+    position: absolute;
+    left: 38%;
+    padding: 24px;
+    min-width: 320px;
+}
+
+p, span {
+    font-family: Verdana, sans-serif;
     font-size:14px;
     color: white;
+}
+
+form {
+    margin-left: 42px;
+}
+
+.form-title {
+    margin-right: 12px;
+    margin-bottom: 8px;
+}
+
+input[type=number] {
+    width: 42px;
 }
 
 label {
@@ -23,17 +57,27 @@ button {
     background: #f9e1ae;
     transition-duration: 0.3s;
     border-color: #f9e1ae;
+    border-radius: 8px;
+    padding-left: 8px;
+    padding-right: 8px;
 }
 
-button:hover {
+button:hover{
     background-color: #ffb400;
+    border-color: #d4a847;
+}
+
+input:hover {
     border-color: #d4a847;
 }
 
 input {
     font-family: Verdana, sans-serif;
     font-size:14px;
-    background: #f9e1ae;;
+    background: #f9e1ae;
+    border-radius: 8px;
+    padding-left: 6px;
+
 }
 
 .center {
@@ -89,15 +133,14 @@ input {
     left: 2px;
 }
 
-.btn-reset {
-    margin-top: 12px;
-    margin-bottom: 12px;
-}
-
 .btn-enter {
     margin-top: 12px;
     margin-bottom: 12px;
-    margin-left: 6px;
+    margin-right: 12px;
+}
+
+.btn-reset {
+    margin-top: 12px;
 }
 
 label {
