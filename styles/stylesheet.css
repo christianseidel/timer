@@ -96,7 +96,7 @@ input {
     user-select: none;
 }
 
-.btn-container {
+.button-container {
     display: flex;
     justify-content: center;
     margin-top: 30px;
@@ -127,20 +127,15 @@ input {
 .btn:active {
     background: #ffa500;
     box-shadow: none;
-    text-shadow: #ffb400;
     position: relative;
     top: 3px;
     left: 2px;
 }
 
-.btn-enter {
-    margin-top: 12px;
-    margin-bottom: 12px;
-    margin-right: 12px;
-}
+.btn-container {
 
-.btn-reset {
-    margin-top: 12px;
+    height: 23px;
+    margin-top: 4px;
 }
 
 label {

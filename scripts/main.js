@@ -1,17 +1,17 @@
-let timer = document.getElementById('timer');
-let m = localStorage.getItem('m') > 0
-    ? localStorage.getItem('m')
+let m = localStorage.getItem('minutes') > 0
+    ? localStorage.getItem('minutes')
     : 2;
 document.getElementById('minutes-lapse01').value = m;
 
-let h = localStorage.getItem('h') > 0
-    ? localStorage.getItem('h')
+let h = localStorage.getItem('hours') > 0
+    ? Number(localStorage.getItem('hours'))
     : 0;
-document.getElementById('hours-lapse01').value = h;
 
 let minutes = 0, seconds = 0, hours = 0;
 let time = '';
+let timer = document.getElementById('timer');
 showTime((1000 * 60 * m) + (1000 * 60 * 60 * h));
+
 
 let alarm = localStorage.getItem('alarm');
 markActualAlarmSet();
@@ -20,24 +20,19 @@ let soundReset = new Audio('sound/btn-reset.wav');
 let soundError = new Audio('sound/error-back-to-future.mp3');
 let soundClick = new Audio('sound/click.mp3');
 
-const delay = 500; // anti-rebound for 500ms
-let lastExecution = 0;
-
 document.getElementById('btn-start').style.display = 'block';
 document.getElementById('btn-start').addEventListener('click', startTimer);
+
 
 function startTimer() {
     soundStartAndStop.play();
     document.getElementById('control-panel').style.display = 'none';
     document.getElementById('btn-start').style.display = 'none';
     document.getElementById('btn-stop').style.display = 'block';
-    document.getElementById('lapse').innerHTML = (cycle > 1) ? 'Runde 1 von ' + cycle : '';
+    document.getElementById('lapse').innerHTML = (numberOfCycles > 1) ? 'Runde 1 von ' + numberOfCycles : '';
     markActualAlarmSet();
-
+    console.log('timer started (' + numberOfCycles + ' cycles)');
     let endTime = new Date().getTime() + ((1000 * 60 * m) + (1000 * 60 * 60 * h));
-
-    console.log('timer started');
-
 
     let myTimer = setInterval(runTimer, 1000);
 
@@ -47,29 +42,28 @@ function startTimer() {
         if (timeLeft > 0) {
             showTime(timeLeft);
         } else {
-            --cycle;
-            console.log('cycle: ' + cycle);
-            if (cycle > 0) {
+            --numberOfCycles;
+            if (numberOfCycles > 0) {
                 playAlarm();
-                console.log('cycle terminated (non-final)')
+                console.log('cycle ' + lapse + ' terminated')
                 ++lapse;
-                document.getElementById('lapse').innerHTML = 'Runde ' + lapse + ' von ' + cycleSaved;
+                document.getElementById('lapse').innerHTML = 'Runde ' + lapse + ' von ' + numberOfCyclesSaved;
                 endTime = new Date().getTime() + ((1000 * 60 * m) + (1000 * 60 * 60 * h));
             } else {
                 clearInterval(myTimer);
                 playAlarm();
                 timer.innerHTML = '00 : 00';
-                console.log('cycle terminated (final)')
+                console.log('final cycle terminated')
                 setTimeout(function () {
                     showTime((1000 * 60 * m) + (1000 * 60 * 60 * h));
                     document.getElementById('btn-start').style.display = 'block';
                     document.getElementById('btn-stop').style.display = 'none';
                     clearInterface();
                 }, 4000);
+                console.log('timer ended');
             }
         }
     }
-
 
     document.getElementById('btn-stop').addEventListener('click', stopTimer);
 
@@ -97,6 +91,8 @@ function showTime(timeLeft) {
 
 
 document.getElementById('btn-reset').addEventListener('click', reset);
+const delay = 500; // anti-rebound for 500ms
+let lastExecution = 0;
 
 function reset() {
     if ((lastExecution + delay) < Date.now()) {
@@ -111,7 +107,7 @@ function reset() {
 
 function clearInterface() {
     document.getElementById('lapse').innerHTML = '';
-    cycle = cycleSaved;
+    numberOfCycles = numberOfCyclesSaved;
     lapse = 1;
     document.getElementById('control-panel').style.display = 'block';
 }
@@ -119,117 +115,80 @@ function clearInterface() {
 
 //----------- CONTROL CYCLE SETTING -----------//
 
-let cycle = localStorage.getItem('cycles') > 1
-    ? localStorage.getItem('cycles')
+let numberOfCycles = localStorage.getItem('cycles') > 1
+    ? Number(localStorage.getItem('cycles'))
     : 1;
-let cycleSaved = cycle;
+let numberOfCyclesSaved = numberOfCycles;
 let lapse = 1;
 
-document.getElementById('number-of-cycles').value = cycle;
-document.getElementById('label-number-of-cycles').innerHTML = (cycle == 1 ? 'Runde' : 'Runden');
-document.getElementById('number-of-cycles').addEventListener('change', labelCycleCounter);
-document.getElementById('set-number-of-cycles').addEventListener('click', validateCycleSetting);
+document.getElementById('number-of-cycles').value = numberOfCycles;
+document.getElementById('label-number-of-cycles').innerHTML = (numberOfCycles === 1 ? 'Runde' : 'Runden');
+document.getElementById('btn-reset-cycles').style.display = numberOfCycles !== 1 ? 'unset' : 'none';
+document.getElementById('number-of-cycles').addEventListener('change', setNumberOfCycles);
 
-
-function labelCycleCounter() {
-    let manipulateCycle = document.getElementById('number-of-cycles').value;
-    document.getElementById('label-number-of-cycles').innerHTML = (manipulateCycle == 1 ? 'Runde' : 'Runden');
-}
-
-function validateCycleSetting() {
-    confirmSetting('checkmark-cycles-reset')
-    cycle = document.getElementById('number-of-cycles').value;
-    if (cycle <= 0) {
+function setNumberOfCycles() {
+    numberOfCycles = Number(document.getElementById('number-of-cycles').value);
+    document.getElementById('label-number-of-cycles').innerHTML = (numberOfCycles === 1 ? 'Runde' : 'Runden');
+    if (numberOfCycles <= 0) {
         soundError.play()
         alert('Achtung! Die Anzahl der Runden muss mindestens 1 betragen.')
-        cycle = 1;
-        document.getElementById('number-of-cycles').value = cycle;
+        numberOfCycles = 1;
+        localStorage.setItem('cycles', '1')
+        document.getElementById('number-of-cycles').value = numberOfCycles;
         document.getElementById('label-number-of-cycles').innerHTML = 'Runde';
     } else {
-        localStorage.setItem('cycles', cycle);
-        cycleSaved = cycle;
+        localStorage.setItem('cycles', numberOfCycles);
+        document.getElementById('btn-reset-cycles').style.display = (numberOfCycles !== 1) ? 'unset' : 'none';
+        numberOfCyclesSaved = numberOfCycles;
     }
 }
 
 function resetCyclesSetting() {
     confirmSetting('checkmark-cycles-reset')
-    cycle = 1;
+    numberOfCycles = 1;
     localStorage.removeItem('cycles');
     document.getElementById('label-number-of-cycles').innerHTML = 'Runde';
+    document.getElementById('btn-reset-cycles').style.display = 'none';
 }
 
 
 //----------- CONTROL TIME SETTING -----------//
 
-let manipulateHours = document.getElementById('hours-lapse01').value;
-document.getElementById('label-hours-lapse01').innerHTML = (manipulateHours == 1 ? 'Stunde' : 'Stunden');
-document.getElementById('hours-lapse01').addEventListener('change', labelHoursSetting);
-document.getElementById('set-hours').addEventListener('click', validateTimeSetting);
+document.getElementById('hours-lapse01').value = h;
+document.getElementById('label-hours-lapse01').innerHTML = (h === 1 ? 'Stunde' : 'Stunden');
+document.getElementById('btn-reset-time').style.display = (h !== 0 || m !== 2) ? 'unset' : 'none';
+document.getElementById('hours-lapse01').addEventListener('change', setHours);
 
-function labelHoursSetting() {
-    manipulateHours = document.getElementById('hours-lapse01').value;
-    document.getElementById('label-hours-lapse01').innerHTML = (manipulateHours == 1 ? 'Stunde' : 'Stunden');
-}
-
-let manipulateMinutes = document.getElementById('minutes-lapse01').value;
-document.getElementById('label-minutes-lapse01').innerHTML = (manipulateMinutes == 1 ? 'Minute' : 'Minuten');
-document.getElementById('minutes-lapse01').addEventListener('change', labelMinutesSetting);
-
-function labelMinutesSetting() {
-    manipulateMinutes = document.getElementById('minutes-lapse01').value;
-    document.getElementById('label-minutes-lapse01').innerHTML = (manipulateMinutes == 1 ? 'Minute' : 'Minuten');
-}
-
-function validateTimeSetting() {
-    confirmSetting('checkmark-time-reset')
-    m = document.getElementById('minutes-lapse01').value;
-    h = document.getElementById('hours-lapse01').value;
+function setHours() {
+    h = Number(document.getElementById('hours-lapse01').value);
     if (h < 0) {
-        let unit = h == -1 ? 'Stunde' : 'Stunden';
+        let unit = h === -1 ? 'Stunde' : 'Stunden';
         showAlert(h, unit);
         h = 0;
         document.getElementById('hours-lapse01').value = 0;
-        localStorage.setItem('h', '0');
     }
+    document.getElementById('label-hours-lapse01').innerHTML = (h === 1 ? 'Stunde' : 'Stunden');
+    document.getElementById('btn-reset-time').style.display = (h !== 0 || m !== 2) ? 'unset' : 'none';
+    localStorage.setItem('hours', h);
+    showTime((1000 * 60 * m) + (1000 * 60 * 60 * h));
+}
+
+document.getElementById('minutes-lapse01').value = m;
+document.getElementById('label-minutes-lapse01').innerHTML = (m === 1 ? 'Minute' : 'Minuten');
+document.getElementById('minutes-lapse01').addEventListener('change', setMinutes);
+
+function setMinutes() {
+    m = Number(document.getElementById('minutes-lapse01').value);
     if (m < 0) {
-        let unit = m == -1 ? 'Minute' : 'Minuten';
+        let unit = m === -1 ? 'Minute' : 'Minuten';
         showAlert(m, unit);
         m = -m;
         document.getElementById('minutes-lapse01').value = m;
-        localStorage.setItem('m', 'm');
     }
-    if (m > 59) {
-        soundError.play()
-        alert('Sorry, die Eingabe von mehr als 59 Minuten ist nicht möglich.');
-        m = 2;
-        document.getElementById('minutes-lapse01').value = m;
-        localStorage.setItem('m', '2');
-    } else {
-        localStorage.setItem('h', h);
-        localStorage.setItem('m', m);
-    }
+    document.getElementById('label-minutes-lapse01').innerHTML = (m === 1 ? 'Minute' : 'Minuten');
+    document.getElementById('btn-reset-time').style.display = (h !== 0 || m !== 2) ? 'unset' : 'none';
+    localStorage.setItem('minutes', m);
     showTime((1000 * 60 * m) + (1000 * 60 * 60 * h));
-    document.getElementById('label-minutes-lapse01').innerHTML = (m == 1 ? 'Minute' : 'Minuten');
-    document.getElementById('label-hours-lapse01').innerHTML = (h == 1 ? 'Stunde' : 'Stunden');
-}
-
-function resetTimeSetting() {
-    confirmSetting('checkmark-time-reset')
-    m = 2;
-    h = 0;
-    showTime((1000 * 60 * m) + (1000 * 60 * 60 * h));
-    document.getElementById('label-minutes-lapse01').innerHTML = 'Minuten';
-    document.getElementById('label-hours-lapse01').innerHTML = 'Stunden';
-    localStorage.removeItem('m');
-    localStorage.removeItem('h');
-}
-
-function confirmSetting(location) {
-    soundClick.play();
-    document.getElementById(location).innerHTML = '&#10004;'
-    setTimeout(function () {
-        document.getElementById(location).innerHTML = ''
-    }, 1000);
 }
 
 function showAlert(amount, unit) {
@@ -239,6 +198,32 @@ function showAlert(amount, unit) {
         'Bitte gib statt ' + amount + ' ' + unit + ' einen positiven Wert an.')
 }
 
+function resetTimeSetting() {
+    confirmSetting('checkmark-time-reset')
+    m = 2;
+    h = 0;
+    showTime((1000 * 60 * m) + (1000 * 60 * 60 * h));
+    document.getElementById('label-minutes-lapse01').innerHTML = 'Minuten';
+    document.getElementById('label-hours-lapse01').innerHTML = 'Stunden';
+    document.getElementById('btn-reset-time').style.display = 'none';
+    localStorage.removeItem('minutes');
+    localStorage.removeItem('hours');
+}
+
+
+//----------- COMMON FEATURE -----------//
+
+function confirmSetting(location) {
+    soundClick.play();
+    document.getElementById(location).innerHTML = '&#10004;'
+    setTimeout(function () {
+        document.getElementById(location).innerHTML = ''
+    }, 1000);
+}
+
+
+
+//----------- CONTROL ALARM -----------//
 
 function setAlarm() {
     readAlarm();
@@ -300,23 +285,3 @@ function playAlarm() {
     }
     alarmToPlay.play();
 }
-
-/*
-function rotateEgg() {
-    document.getElementById('stop-the-egg').style.display = 'block'
-    let angle = 0;
-    document.getElementById('image-egg').style.transform = 'rotate(' + angle + 'deg)';
-    let turningEgg = setInterval(function () {
-        ++angle;
-        document.getElementById('image-egg').style.transform = 'rotate(' + angle + 'deg)';
-        if (angle === 360) {
-            angle = -1;
-            clearInterval(turningEgg);
-        }
-    }, 20);
-
-    function stopIt() {
-        clearInterval(turningEgg);
-    }
-
-*/
