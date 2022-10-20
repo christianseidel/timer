@@ -194,7 +194,7 @@ function setMinutes() {
 function showAlert(amount, unit) {
     soundError.play()
     alert('Oups, Sorry, diese App ist keine Zeitmaschine. Sie ist einfach nur ein Kurzzeitwecker. '
-        + 'Eine Reise in die Vergangenheit ist mit ihr nicht möglich.\n\n' +
+        + 'In die Vergangenheit reisen geht mit ihr leider nicht.\n\n' +
         'Bitte gib statt ' + amount + ' ' + unit + ' einen positiven Wert an.')
 }
 
