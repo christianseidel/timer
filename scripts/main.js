@@ -1,7 +1,7 @@
 let m = localStorage.getItem('minutes') > 0
     ? localStorage.getItem('minutes')
     : 2;
-document.getElementById('minutes-lapse01').value = m;
+document.getElementById('minutes-control').value = m;
 
 let h = localStorage.getItem('hours') > 0
     ? Number(localStorage.getItem('hours'))
@@ -154,38 +154,38 @@ function resetCyclesSetting() {
 
 //----------- CONTROL TIME SETTING -----------//
 
-document.getElementById('hours-lapse01').value = h;
-document.getElementById('label-hours-lapse01').innerHTML = (h === 1 ? 'Stunde' : 'Stunden');
+document.getElementById('hours-control').value = h;
+document.getElementById('label-hours-control').innerHTML = (h === 1 ? 'Stunde' : 'Stunden');
 document.getElementById('btn-reset-time').style.display = (h !== 0 || m !== 2) ? 'unset' : 'none';
-document.getElementById('hours-lapse01').addEventListener('change', setHours);
+document.getElementById('hours-control').addEventListener('change', setHours);
 
 function setHours() {
-    h = Number(document.getElementById('hours-lapse01').value);
+    h = Number(document.getElementById('hours-control').value);
     if (h < 0) {
         let unit = h === -1 ? 'Stunde' : 'Stunden';
         showAlert(h, unit);
         h = 0;
-        document.getElementById('hours-lapse01').value = 0;
+        document.getElementById('hours-control').value = 0;
     }
-    document.getElementById('label-hours-lapse01').innerHTML = (h === 1 ? 'Stunde' : 'Stunden');
+    document.getElementById('label-hours-control').innerHTML = (h === 1 ? 'Stunde' : 'Stunden');
     document.getElementById('btn-reset-time').style.display = (h !== 0 || m !== 2) ? 'unset' : 'none';
     localStorage.setItem('hours', h);
     showTime((1000 * 60 * m) + (1000 * 60 * 60 * h));
 }
 
-document.getElementById('minutes-lapse01').value = m;
-document.getElementById('label-minutes-lapse01').innerHTML = (m === 1 ? 'Minute' : 'Minuten');
-document.getElementById('minutes-lapse01').addEventListener('change', setMinutes);
+document.getElementById('minutes-control').value = m;
+document.getElementById('label-minutes-control').innerHTML = (m === 1 ? 'Minute' : 'Minuten');
+document.getElementById('minutes-control').addEventListener('change', setMinutes);
 
 function setMinutes() {
-    m = Number(document.getElementById('minutes-lapse01').value);
+    m = Number(document.getElementById('minutes-control').value);
     if (m < 0) {
         let unit = m === -1 ? 'Minute' : 'Minuten';
         showAlert(m, unit);
         m = -m;
-        document.getElementById('minutes-lapse01').value = m;
+        document.getElementById('minutes-control').value = m;
     }
-    document.getElementById('label-minutes-lapse01').innerHTML = (m === 1 ? 'Minute' : 'Minuten');
+    document.getElementById('label-minutes-control').innerHTML = (m === 1 ? 'Minute' : 'Minuten');
     document.getElementById('btn-reset-time').style.display = (h !== 0 || m !== 2) ? 'unset' : 'none';
     localStorage.setItem('minutes', m);
     showTime((1000 * 60 * m) + (1000 * 60 * 60 * h));
@@ -203,8 +203,8 @@ function resetTimeSetting() {
     m = 2;
     h = 0;
     showTime((1000 * 60 * m) + (1000 * 60 * 60 * h));
-    document.getElementById('label-minutes-lapse01').innerHTML = 'Minuten';
-    document.getElementById('label-hours-lapse01').innerHTML = 'Stunden';
+    document.getElementById('label-minutes-control').innerHTML = 'Minuten';
+    document.getElementById('label-hours-control').innerHTML = 'Stunden';
     document.getElementById('btn-reset-time').style.display = 'none';
     localStorage.removeItem('minutes');
     localStorage.removeItem('hours');
