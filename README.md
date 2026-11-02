@@ -9,4 +9,4 @@ You may set:
 
 ## It's online
 
-[https://www.parameter5.de/timer](https://www.parameter5.de/timer)
+[https://www.parameter5.de/timer](https://www.parameter5.de/timer/timer.html)
